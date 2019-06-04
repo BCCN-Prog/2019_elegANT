@@ -85,7 +85,7 @@ class View:
 
         self.add_element(ColorSelector(self, "color_selector", 60, 50, 5, 1, player_colors))
 
-        start_button = Button(self, "start_button", 5, 85, 12.5, 10, -1, (100, 100, 100), (150, 150, 150), 'square')
+        start_button = Button(self, "start_button", 5, 80, 12.5, 10, -1, (100, 100, 100), (150, 150, 150), 'square')
 
         # Add start game event
         start_button.on("click", lambda: self.event_dict.update({"start_button":
@@ -95,7 +95,7 @@ class View:
 
         self.add_element(start_button)
 
-        starttext = Text(self, "starttext", 11.5, 90, 0.5, 0.6)
+        starttext = Text(self, "starttext", 11.5, 85, 0.5, 0.6)
         starttext.set_text("START")
         self.add_element(starttext)
 
@@ -108,11 +108,7 @@ class View:
         quittext.set_text("X")
         self.add_element(quittext)
 
-        inputname = Text(self, "inputname", 13, 27, 0.5, 0.4)
-        inputname.set_text("Please enter your name")
-        self.add_element(inputname)
-
-        self.add_element(InputBox(self, "textbox", 5, 32, 12.5, 5, (0, 0, 0), (255, 100, 100), ''))
+        self.add_element(InputBox(self, "textbox", 5, 55, 12.5, 5, 'Enter your name'))
 
         buttontext = Text(self, "buttontext", 60, 27, 0.5, 0.4)
         buttontext.set_text("Please choose color of ant")
