@@ -68,7 +68,7 @@ class View:
         self.elements = {}
 
         # add elements for the main text
-        text = Text(self, "headline", 17.5, 10, -1, 12.5)
+        text = Text(self, "headline", 4, 5, -1, 12.5)
         text.set_text("ElegANT")
         self.add_element(text)
 
@@ -96,7 +96,7 @@ class View:
 
         self.add_element(start_button)
 
-        starttext = Text(self, "starttext", 15, 85, -1, 5, (255, 255, 255))
+        starttext = Text(self, "starttext", 6, 82, -1, 5, (255, 255, 255))
         starttext.set_text("START GAME")
         self.add_element(starttext)
 
