@@ -6,7 +6,8 @@ class Text(UIElement):
     def __init__(self, view, identifier, x, y, width, height, color=(0, 0, 0)):
         pygame.init()
         super(Text, self).__init__(view, identifier, x, y, width, height)
-        self.fontsize = self.width * self.height
+        self.fontsize = self.height
+        print(self.fontsize)
         self.color = color
 
     def set_text(self, text):

@@ -30,6 +30,7 @@ class View:
         self.res_width = display_info.current_w
         self.res_height = display_info.current_h
         self.state = None
+        print(self.res_height,self.res_width)
 
         # Only works for windows --> need to check operating system
         if platform.system() == 'Windows':
@@ -67,7 +68,7 @@ class View:
         self.elements = {}
 
         # add elements for the main text
-        text = Text(self, "headline", 17.5, 10, 0.8, 0.9)
+        text = Text(self, "headline", 17.5, 10, -1, 12.5)
         text.set_text("ElegANT")
         self.add_element(text)
 
@@ -95,7 +96,7 @@ class View:
 
         self.add_element(start_button)
 
-        starttext = Text(self, "starttext", 15, 85, 0.5, 0.6, (255, 255, 255))
+        starttext = Text(self, "starttext", 15, 85, -1, 5, (255, 255, 255))
         starttext.set_text("START GAME")
         self.add_element(starttext)
 
@@ -104,13 +105,13 @@ class View:
         
         quit_button.on("click", lambda: self.event_dict.update({"quit_game": ()}))
 
-        quittext = Text(self, "quittext", 99, 2, 0.3, 0.4)
+        quittext = Text(self, "quittext", 99, 2, -1, 2)
         quittext.set_text("X")
         self.add_element(quittext)
 
         self.add_element(InputBox(self, "textbox", 5, 55, 12.5, 5, 'Enter your name'))
 
-        buttontext = Text(self, "buttontext", 60, 27, 0.5, 0.4)
+        buttontext = Text(self, "buttontext", 60, 27, -1, 3)
         buttontext.set_text("Please choose color of ant")
         self.add_element(buttontext)
 
