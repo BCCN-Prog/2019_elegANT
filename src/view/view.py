@@ -85,7 +85,7 @@ class View:
 
         self.add_element(ColorSelector(self, "color_selector", 60, 50, 5, 1, player_colors))
 
-        start_button = Button(self, "start_button", 5, 80, 12.5, 10, -1, (100, 100, 100), (150, 150, 150), 'square')
+        start_button = Button(self, "start_button", 5, 80, 20, 10, -1, (100, 100, 100), (150, 150, 150), 'square')
 
         # Add start game event
         start_button.on("click", lambda: self.event_dict.update({"start_button":
@@ -95,8 +95,8 @@ class View:
 
         self.add_element(start_button)
 
-        starttext = Text(self, "starttext", 11.5, 85, 0.5, 0.6)
-        starttext.set_text("START")
+        starttext = Text(self, "starttext", 15, 85, 0.5, 0.6, (255, 255, 255))
+        starttext.set_text("START GAME")
         self.add_element(starttext)
 
         quit_button = Button(self, "quit_button", 98.25, 0.8, 1.5, 2.5, -1, (250, 0, 0), (150, 150, 150), 'square')
