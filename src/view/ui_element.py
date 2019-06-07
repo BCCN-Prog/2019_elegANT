@@ -9,10 +9,10 @@ class UIElement(ViewElement):
         self.y_percentage = y
         self.w_percentage = width
         self.h_percentage = height
-        x = 0 + int(x / 100 * view.res_width)
-        y = 0 + int(y / 100 * view.res_height)
-        width = int(width / 100 * view.res_width)
-        height = int(height / 100 * view.res_height)
+        x = 0 + int(x / 100 * view.width)
+        y = 0 + int(y / 100 * view.height)
+        width = int(width / 100 * view.width)
+        height = int(height / 100 * view.height)
         super(UIElement, self).__init__(view, identifier, x, y, width, height)
 
         self.active = active

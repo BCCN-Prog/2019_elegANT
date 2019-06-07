@@ -6,12 +6,12 @@ class InputBox(UIElement):
     def __init__(self, view, identifier, x, y, width, height, text, shape='square'):
         UIElement.__init__(self, view, identifier, x, y, width, height)
         self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
-        self.linerect = pygame.Rect(self.x, self.y+0.90*self.height, self.width, 2)
+        self.linerect = pygame.Rect(self.x, self.y + 0.90 * self.height, self.width, 2)
         self.color = self.view.background_color
         self.textcolor = (0, 0, 0)
         self.text = text
-        self.largeText = pygame.font.Font('Garamond_Regular.ttf',40)
-        self.txt_surface = self.largeText.render(text, True, (160,160,160))
+        self.largeText = pygame.font.Font('Garamond_Regular.ttf', int(0.70 * self.height))
+        self.txt_surface = self.largeText.render(text, True, (160, 160, 160))
         self.active = False
         self.shape = shape
         self.on("click", self.click)

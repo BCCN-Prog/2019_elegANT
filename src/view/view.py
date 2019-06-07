@@ -24,13 +24,14 @@ class View:
         pygame.init()
         display_info = pygame.display.Info()
 
-        # Currently not used
+        if height == 0:
+            height = display_info.current_h
+            width = display_info.current_w
+
         self.width = width
         self.height = height
-        self.res_width = display_info.current_w
-        self.res_height = display_info.current_h
+
         self.state = None
-        print(self.res_height,self.res_width)
 
         # Only works for windows --> need to check operating system
         if platform.system() == 'Windows':
@@ -40,7 +41,7 @@ class View:
             self.screen = pygame.display.set_mode(true_res, pygame.FULLSCREEN)
 
         else:
-            self.screen = pygame.display.set_mode((self.res_width, self.res_height), pygame.FULLSCREEN)
+            self.screen = pygame.display.set_mode((self.width, self.height), pygame.FULLSCREEN)
 
         self.background_color = pygame.Color("white")
         self.mouse_pos = pygame.mouse.get_pos()
@@ -89,14 +90,14 @@ class View:
         starttext = Text(self, "starttext", 6, 82, -1, 5, (255, 255, 255))
         starttext.set_text("START GAME")
 
-        start_button = Button(self, "start_button", 5, 80, (starttext.TextRect.width/self.res_width)*100+2, 10, - 1, (100, 100, 100),
-                              (150, 150, 150), 'square')
+        start_button = Button(self, "start_button", 5, 80, (starttext.TextRect.width / self.width) * 100 + 2, 10, - 1,
+                              (100, 100, 100), (150, 150, 150), 'square')
 
         # Add start game event
         start_button.on("click", lambda: self.event_dict.update({"start_button":
-                                                                     (self.get_element_by_id(
-                                                                         "color_selector").get_selection(),
-                                                                      self.get_element_by_id("textbox").text)}))
+                                                                (self.get_element_by_id(
+                                                                    "color_selector").get_selection(),
+                                                                 self.get_element_by_id("textbox").text)}))
 
         self.add_element(start_button)
         self.add_element(starttext)
@@ -112,7 +113,19 @@ class View:
 
         self.add_element(InputBox(self, "textbox", 5, 55, 12.5, 5, 'Enter your name'))
 
-        buttontext = Text(self, "buttontext", 52, 27, -1, 3)
+        fullscreen_button = Button(self, "fullscreen_button", 96.25, 0.8, 1.5, 2.5, -1, (192, 192, 192),
+                                   (150, 150, 150), 'square')
+        self.add_element(fullscreen_button)
+
+        fullscreen_button.on("click", lambda: self.event_dict.update({"fullscreen_view": ()}))
+
+        fullscreentext = Text(self, "fullscreentext", 96.6, 1, -1, 2)
+        fullscreentext.set_text("F")
+        self.add_element(fullscreentext)
+
+        self.add_element(InputBox(self, "textbox", 5, 55, 12.5, 5, 'Enter your name'))
+
+        buttontext = Text(self, "buttontext", 52, 24, -1, 3)
         buttontext.set_text("Please choose color of ant")
         self.add_element(buttontext)
 
@@ -127,6 +140,16 @@ class View:
         quittext = Text(self, "quittext", 98.6, 1, -1, 2)
         quittext.set_text("X")
         self.add_element(quittext)
+
+        fullscreen_button = Button(self, "fullscreen_button", 96.25, 0.8, 1.5, 2.5, -1, (192, 192, 192),
+                                   (150, 150, 150), 'square')
+        self.add_element(fullscreen_button)
+
+        fullscreen_button.on("click", lambda: self.event_dict.update({"fullscreen_view": ()}))
+
+        fullscreentext = Text(self, "fullscreentext", 96.6, 1, -1, 2)
+        fullscreentext.set_text("F")
+        self.add_element(fullscreentext)
 
         # Create world which contains all game objects
         self.add_element(World(self, "world", 0, 0, 250, 250))
