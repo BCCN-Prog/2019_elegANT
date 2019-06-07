@@ -23,25 +23,27 @@ class View:
     def __init__(self, width, height):
         pygame.init()
         display_info = pygame.display.Info()
-
-        if height == 0:
-            height = display_info.current_h
-            width = display_info.current_w
-
         self.width = width
         self.height = height
+
+        if height == 0:
+            self.height = display_info.current_h
+            self.width = display_info.current_w
+            if platform.system() == 'Windows':
+                from ctypes import windll
+                windll.user32.SetProcessDPIAware()
+                true_res = (windll.user32.GetSystemMetrics(0), windll.user32.GetSystemMetrics(1))
+                self.screen = pygame.display.set_mode(true_res, pygame.FULLSCREEN)
+
+            else:
+                self.screen = pygame.display.set_mode((self.width, self.height), pygame.FULLSCREEN)
+
+        else:
+            self.screen = pygame.display.set_mode((self.width, self.height))
 
         self.state = None
 
         # Only works for windows --> need to check operating system
-        if platform.system() == 'Windows':
-            from ctypes import windll
-            windll.user32.SetProcessDPIAware()
-            true_res = (windll.user32.GetSystemMetrics(0), windll.user32.GetSystemMetrics(1))
-            self.screen = pygame.display.set_mode(true_res, pygame.FULLSCREEN)
-
-        else:
-            self.screen = pygame.display.set_mode((self.width, self.height), pygame.FULLSCREEN)
 
         self.background_color = pygame.Color("white")
         self.mouse_pos = pygame.mouse.get_pos()
