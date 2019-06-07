@@ -15,24 +15,38 @@ class Controller:
     def __init__(self):
 
         # self.player = Player()
-        self.view = View(1300, 800)
+        self.view = View(1300,800)
+        self.view_screen =[1300,800]
         self.view.change_view_state(View.STARTVIEW)
         self.game_state = None
 
         self.event_list_start_view = {
             'start_button': self.start_button_pressed,
-            'quit_game': self.exit_game
+            'quit_game': self.exit_game,
+            'fullscreen_view': self.screen_flip
         }
 
         self.event_list_game_view = {
             'build_scout': self.create_ant,
-            'quit_game': self.exit_game
+            'quit_game': self.exit_game,
+            'fullscreen_view': self.screen_flip
         }
 
         self.event_list = {
             'start_view': self.event_list_start_view,
             'game_view': self.event_list_game_view
         }
+
+    def screen_flip(self):
+
+        if self.view_screen == [1300,800]:
+            self.view_screen=[0,0]
+            self.view.width =0
+            self.view.height =0
+        else:
+            self.view_screen =[1300,800]
+            self.view.width = 1300
+            self.view.height = 800
 
     def start_button_pressed(self, color, player_name):
         """
@@ -132,11 +146,11 @@ class Controller:
             current_time = time.time()
 
             if self.game_state is None:
-                self.view.draw()
+                self.view.draw(self.view.width,self.view.height)
                 self.game_state_init()
 
             else:
-                self.view.draw()
+                self.view.draw(self.view.width, self.view.height)
                 self.game_state_update()
 
             # For frame rate adjustment
