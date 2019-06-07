@@ -86,18 +86,19 @@ class View:
 
         self.add_element(ColorSelector(self, "color_selector", 60, 50, 5, 1, player_colors))
 
-        start_button = Button(self, "start_button", 5, 80, 20, 10, -1, (100, 100, 100), (150, 150, 150), 'square')
+        starttext = Text(self, "starttext", 6, 82, -1, 5, (255, 255, 255))
+        starttext.set_text("START GAME")
+
+        start_button = Button(self, "start_button", 5, 80, (starttext.TextRect.width/self.res_width)*100+2, 10, - 1, (100, 100, 100),
+                              (150, 150, 150), 'square')
 
         # Add start game event
         start_button.on("click", lambda: self.event_dict.update({"start_button":
-                                                                (self.get_element_by_id(
-                                                                    "color_selector").get_selection(),
-                                                                 self.get_element_by_id("textbox").text)}))
+                                                                     (self.get_element_by_id(
+                                                                         "color_selector").get_selection(),
+                                                                      self.get_element_by_id("textbox").text)}))
 
         self.add_element(start_button)
-
-        starttext = Text(self, "starttext", 6, 82, -1, 5, (255, 255, 255))
-        starttext.set_text("START GAME")
         self.add_element(starttext)
 
         quit_button = Button(self, "quit_button", 98.25, 0.8, 1.5, 2.5, -1, (250, 0, 0), (150, 150, 150), 'square')
@@ -105,26 +106,25 @@ class View:
         
         quit_button.on("click", lambda: self.event_dict.update({"quit_game": ()}))
 
-        quittext = Text(self, "quittext", 99, 2, -1, 2)
+        quittext = Text(self, "quittext", 98.6, 1, -1, 2)
         quittext.set_text("X")
         self.add_element(quittext)
 
         self.add_element(InputBox(self, "textbox", 5, 55, 12.5, 5, 'Enter your name'))
 
-        buttontext = Text(self, "buttontext", 60, 27, -1, 3)
+        buttontext = Text(self, "buttontext", 52, 27, -1, 3)
         buttontext.set_text("Please choose color of ant")
         self.add_element(buttontext)
 
     def _game_view(self):
         self.elements = {}
 
-        # add quit button
         quit_button = Button(self, "quit_button", 98.25, 0.8, 1.5, 2.5, -1, (250, 0, 0), (150, 150, 150), 'square')
         self.add_element(quit_button)
 
         quit_button.on("click", lambda: self.event_dict.update({"quit_game": ()}))
 
-        quittext = Text(self, "quittext", 99, 2, 0.3, 0.4)
+        quittext = Text(self, "quittext", 98.6, 1, -1, 2)
         quittext.set_text("X")
         self.add_element(quittext)
 
