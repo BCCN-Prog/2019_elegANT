@@ -73,7 +73,8 @@ class World(ViewElement):
             # Create elements
             else:
                 view_x, view_y = self._to_view_coordinates(element.position)
-                color = (87, 112, 219)  # element.color
+                if hasattr(element, 'owner'):
+                    color = element.owner.color
 
                 if type(element) == Model_Nest:
                     self.game_elements[element.id] = Nest(self.view, element.id, view_x,
@@ -91,7 +92,6 @@ class World(ViewElement):
         # Remove out of view elements
         for element_id in list(self.game_elements.keys()):
             if element_id not in element_ids:
-                print(f"Remove Element {element_id} from view")
                 del self.game_elements[element_id]
 
     def _to_view_coordinates(self, position):

@@ -16,20 +16,17 @@ class Controller:
 
         # self.player = Player()
         self.view = View(1300,800)
-        self.view_screen =[1300,800]
         self.view.change_view_state(View.STARTVIEW)
         self.game_state = None
 
         self.event_list_start_view = {
             'start_button': self.start_button_pressed,
             'quit_game': self.exit_game,
-            'fullscreen_view': self.screen_flip
         }
 
         self.event_list_game_view = {
             'build_scout': self.create_ant,
             'quit_game': self.exit_game,
-            'fullscreen_view': self.screen_flip
         }
 
         self.event_list = {
@@ -37,16 +34,6 @@ class Controller:
             'game_view': self.event_list_game_view
         }
 
-    def screen_flip(self):
-
-        if self.view_screen == [1300,800]:
-            self.view_screen=[0,0]
-            self.view.width =0
-            self.view.height =0
-        else:
-            self.view_screen =[1300,800]
-            self.view.width = 1300
-            self.view.height = 800
 
     def start_button_pressed(self, color, player_name):
         """
@@ -57,7 +44,7 @@ class Controller:
         """
         if player_name:
             self.view.change_view_state(View.GAMEVIEW)
-            player = Player(color, player_name)
+            player = Player(player_name, color)
             player_list = [player]
             game_state = GameState(player_list)
             return game_state
@@ -80,15 +67,16 @@ class Controller:
         :param button: Create Ants button
         :return: nothing
         """
-        button.state = 'loading'
+        if button.state != 'loading':
+            button.state = 'loading'
 
-        def _create_ant():
-            time.sleep(all_params.controller_params.create_ant_time)
-            nest = self.game_state.get_nests()[0]
-            self.game_state.create_ants(nest, amount=1)
-            self.view.increment_ant_count()
+            def _create_ant():
+                time.sleep(all_params.controller_params.create_ant_time)
+                nest = self.game_state.get_nests()[0]
+                self.game_state.create_ants(nest, amount=1)
+                self.view.increment_ant_count()
 
-        create_thread(func=_create_ant)
+            create_thread(func=_create_ant)
 
     def get_events(self, view_state):
 
