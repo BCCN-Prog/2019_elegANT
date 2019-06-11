@@ -157,8 +157,9 @@ class View:
         # Create world which contains all game objects
         self.add_element(World(self, "world", 0, 0, 250, 250))
 
-        build_scout_button = BuildScoutButton(self, "build_scout", 5, 85, 5, 9, -1, (255, 20, 147),
-                                              (255, 105, 180), 'square')
+        build_scout_button = BuildScoutButton(self, "build_scout", 5, 85, 5, 9, -1, (150,150,150),
+                                              (255, 105, 180), 'square',
+                                              image_path="src/view/images/scout_stat_button.png")
 
         # Add start game event
         build_scout_button.on("click", lambda: self.event_dict.update({
