@@ -36,6 +36,7 @@ class UIElement(ViewElement):
         else:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 self.active = False
+
                 
             if self.hovered is True:
                 self.hovered = False

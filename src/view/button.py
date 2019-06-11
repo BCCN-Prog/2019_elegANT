@@ -17,16 +17,21 @@ class Button(UIElement):
     def change_color(self, new_color):
         self.color = new_color
 
-    def draw(self):
-        super(Button, self).draw()
+    def draw(self, flag=1):
+        if flag:
+            super(Button, self).draw()
+        else:
+            pass
         if self.shape == 'circle':
             pygame.draw.circle(self.view.screen, self.color, (self.x, self.y), self.radius)
             if self.has_image is True:
                 image = pygame.transform.scale(pygame.image.load(self.image_path), (self.width, self.height))
                 self.view.screen.blit(image,
                                       pygame.Rect(self.x - (self.width // 2), self.y - (self.height // 2), self.width,
+
                                                   self.height))
         elif self.shape == 'square':
+            super(Button, self).draw()
             pygame.draw.rect(self.view.screen, self.color, (self.x, self.y, self.width, self.height))
 
             if self.has_image is True:
