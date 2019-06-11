@@ -18,6 +18,7 @@ class Button(UIElement):
         self.color = new_color
 
     def draw(self):
+        super(Button , self).draw()
         if self.shape == 'circle':
             pygame.draw.circle(self.view.screen, self.color, (self.x, self.y), self.radius)
             if self.has_image is True:

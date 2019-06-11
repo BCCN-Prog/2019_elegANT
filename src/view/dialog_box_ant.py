@@ -9,6 +9,7 @@ class DialogBoxAnt(DialogBox):
         self.ant = ant
 
     def draw(self):
+        # super(DialogBoxAnt, self).draw()
         if self.ant.active:
             print(self.rect)
             for i, stat in enumerate(self.ant.stats):

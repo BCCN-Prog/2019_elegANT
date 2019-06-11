@@ -63,4 +63,10 @@ class UIElement(ViewElement):
         elif self.shape == 'square':
             return self.x + self.width > pos[0] > self.x and self.y + self.height > pos[1] > self.y
 
+    def draw(self):
+        self.x = 0 + int(self.x_percentage / 100 * self.view.width)
+        self.y = 0 + int(self.y_percentage / 100 * self.view.height)
+        self.width = 0 + int(self.w_percentage / 100 * self.view.width)
+        self.height = 0 + int(self.h_percentage / 100 * self.view.height)
+
 

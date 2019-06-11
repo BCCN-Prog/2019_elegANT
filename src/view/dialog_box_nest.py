@@ -31,12 +31,17 @@ class DialogBoxNest(DialogBox):
                                        name=data["name"]))
 
     def draw(self):
+        super(DialogBoxNest, self).draw()
         if self.active:
+            print('i am here')
             pygame.draw.rect(self.view.screen, pygame.Color("black"), self.rect, 2)
             txt_surface = self.view.FONT.render(self.name, True, pygame.Color("black"))
             self.view.screen.blit(txt_surface, (self.rect.x + 10, self.rect.y + 10))
         else:
+            print('i should be here')
+            print(self.show_sliders)
             if self.show_sliders is True:
+                print('i should be also here')
                 for slider in self.sliders:
                     self.view.remove_element(slider.identifier)
                 self.show_sliders = False

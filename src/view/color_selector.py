@@ -12,12 +12,12 @@ class ColorSelector(UIElement):
         self.buttons = []
         colors_n = len(colors)
         for i, rgb in enumerate(colors):
-            x = int(self.radius * math.cos(i * ((2 * math.pi) / colors_n))) + self.x
-            y = int(self.radius * math.sin(i * ((2 * math.pi) / colors_n))) + self.y
+            x = int(self.radius*math.cos(i * ((2 * math.pi) / colors_n))) + self.x
+            y = int(self.radius*math.sin(i * ((2 * math.pi) / colors_n))) + self.y
             name = "_".join((str(c) for c in rgb))
-            button = Button(self.view, "c{}".format(i), x, y, -1, -1, 32, (249, 249, 249), rgb,
+            button = Button(self.view, "c{}".format(i), x, y, 100, 100, 32, (249, 249, 249), rgb,
                             "circle", True, f"src/view/images/menu_color_{name}_inactive.png")
-            button.height = button.width = 100
+            button.width=button.height=100
             button.x = x
             button.y = y
             button.on("click", self._select_color, button_clicked=button)

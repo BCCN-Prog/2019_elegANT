@@ -5,6 +5,7 @@ from .button import Button
 from .button_build_scout import BuildScoutButton
 from .color_selector import ColorSelector
 from .input_box import InputBox
+# from .full_screen import FullScreen
 # TODO check if these imports are necessary
 # from .nest import Nest
 # from .ant import Ant
@@ -23,25 +24,16 @@ class View:
     def __init__(self, width, height):
         pygame.init()
         display_info = pygame.display.Info()
+        self.res_width = display_info.current_w
+        self.res_height = display_info.current_h
+        self.win_height = height
+        self.win_width = width
         self.width = width
         self.height = height
-        print("ïnit",self.width,self.height)
 
-        if self.height == 0:
-            self.height = display_info.current_h
-            self.width = display_info.current_w
-            if platform.system() == 'Windows':
-                from ctypes import windll
-                windll.user32.SetProcessDPIAware()
-                true_res = (windll.user32.GetSystemMetrics(0), windll.user32.GetSystemMetrics(1))
-                self.screen = pygame.display.set_mode(true_res, pygame.FULLSCREEN)
-
-            else:
-                self.screen = pygame.display.set_mode((self.width, self.height), pygame.FULLSCREEN)
-
-        else:
-            self.screen = pygame.display.set_mode((self.width, self.height))
-
+        self.screen = pygame.display.set_mode((self.width, self.height))
+        self.fullscreenflag = False
+        self.origwidth = self.width
         self.state = None
 
         # Only works for windows --> need to check operating system
@@ -63,13 +55,14 @@ class View:
         # Construct new UI elements for the requested state
         if state == View.STARTVIEW:
             self.state = View.STARTVIEW
-            self._start_view()
+            self.start_view()
         if state == View.GAMEVIEW:
             self.state = View.GAMEVIEW
             self._game_view()
 
-    def _start_view(self):
+    def start_view(self):
         self.elements = {}
+        self.iteration_copy = {}
 
         # add elements for the main text
         text = Text(self, "headline", 4, 5, -1, 12.5)
@@ -93,7 +86,11 @@ class View:
         starttext = Text(self, "starttext", 6, 82, -1, 5, (255, 255, 255))
         starttext.set_text("START GAME")
 
-        start_button = Button(self, "start_button", 5, 80, (starttext.TextRect.width / self.width) * 100 + 2, 10, - 1,
+        # start_button = Button(self, "start_button", 5, 80, 22, 10, - 1,
+        #                       (100, 100, 100), (150, 150, 150), 'square')
+
+
+        start_button = Button(self, "start_button", 5, 80, 20, 10, - 1,
                               (100, 100, 100), (150, 150, 150), 'square')
 
         # Add start game event
@@ -116,11 +113,13 @@ class View:
 
         self.add_element(InputBox(self, "textbox", 5, 55, 12.5, 5, 'Enter your name'))
 
+        # self.add_element(FullScreen(self,"fullscreen",96.25, 0.8, 1.5, 2.5,self.res_width,self.res_height))
+
         fullscreen_button = Button(self, "fullscreen_button", 96.25, 0.8, 1.5, 2.5, -1, (192, 192, 192),
                                    (150, 150, 150), 'square')
         self.add_element(fullscreen_button)
 
-        fullscreen_button.on("click", lambda: self.event_dict.update({"fullscreen_view": ()}))
+        fullscreen_button.on("click", self.fullscreen)
 
         fullscreentext = Text(self, "fullscreentext", 96.6, 1, -1, 2)
         fullscreentext.set_text("F")
@@ -134,6 +133,7 @@ class View:
 
     def _game_view(self):
         self.elements = {}
+        self.iteration_copy = {}
 
         quit_button = Button(self, "quit_button", 98.25, 0.8, 1.5, 2.5, -1, (250, 0, 0), (150, 150, 150), 'square')
         self.add_element(quit_button)
@@ -148,7 +148,7 @@ class View:
                                    (150, 150, 150), 'square')
         self.add_element(fullscreen_button)
 
-        fullscreen_button.on("click", lambda: self.event_dict.update({"fullscreen_view": ()}))
+        fullscreen_button.on("click", self.fullscreen)
 
         fullscreentext = Text(self, "fullscreentext", 96.6, 1, -1, 2)
         fullscreentext.set_text("F")
@@ -187,6 +187,7 @@ class View:
 
     def add_element(self, ui_element):
         self.elements[ui_element.identifier] = ui_element
+        self.iteration_copy = self.elements.copy()
 
     def remove_element(self, ui_element_identifier):
         self.elements.pop(ui_element_identifier, None)
@@ -197,32 +198,30 @@ class View:
         else:
             print("Element does not exist")
 
+    def fullscreen(self):
+        if not self.fullscreenflag:
+            self.height = self.res_height
+            self.width = self.res_width
+            if platform.system() == 'Windows':
+                from ctypes import windll
+                windll.user32.SetProcessDPIAware()
+                true_res = (windll.user32.GetSystemMetrics(0), windll.user32.GetSystemMetrics(1))
+                self.screen = pygame.display.set_mode(true_res, pygame.FULLSCREEN)
+            else:
+                self.screen = pygame.display.set_mode((self.width, self.height), pygame.FULLSCREEN)
+            self.fullscreenflag = True
+        else:
+            self.width = self.win_width
+            self.height = self.win_height
+            self.fullscreenflag = False
+            self.screen = pygame.display.set_mode((self.width, self.height))
+        pygame.display.flip()
+
     def draw(self,width,height,model_state=None):
         self.width = width
         self.height = height
-        print("draw", self.width, self.height)
-        # display_info = pygame.display.Info()
-        # if self.height == 0:
-        #     self.height = display_info.current_h
-        #     self.width = display_info.current_w
-        #     if platform.system() == 'Windows':
-        #         from ctypes import windll
-        #         windll.user32.SetProcessDPIAware()
-        #         true_res = (windll.user32.GetSystemMetrics(0), windll.user32.GetSystemMetrics(1))
-        #         self.screen = pygame.display.set_mode(true_res, pygame.FULLSCREEN)
-        #
-        #     else:
-        #         self.screen = pygame.display.set_mode((self.width, self.height), pygame.FULLSCREEN)
-        #
-        # else:
-        #     self.screen = pygame.display.set_mode((self.width, self.height))
-
-
-
         self.screen.fill(self.background_color)
-
-        iteration_copy = self.elements.copy()
-        for element in iteration_copy.values():
+        for element in self.iteration_copy.values():
             element.draw()
         pygame.display.flip()
 
