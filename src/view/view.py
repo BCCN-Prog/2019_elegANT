@@ -158,8 +158,7 @@ class View:
         self.add_element(World(self, "world", 0, 0, 250, 250))
 
         build_scout_button = BuildScoutButton(self, "build_scout", 5, 85, 5, 9, -1, (150,150,150),
-                                              (255, 105, 180), 'square',
-                                              image_path="src/view/images/scout_stat_button.png")
+                                              (255, 255, 255), 'square')
 
         # Add start game event
         build_scout_button.on("click", lambda: self.event_dict.update({
@@ -188,7 +187,6 @@ class View:
 
     def add_element(self, ui_element):
         self.elements[ui_element.identifier] = ui_element
-        self.iteration_copy = self.elements.copy()
 
     def remove_element(self, ui_element_identifier):
         self.elements.pop(ui_element_identifier, None)
@@ -222,7 +220,8 @@ class View:
         self.width = width
         self.height = height
         self.screen.fill(self.background_color)
-        for element in self.iteration_copy.values():
+        iteration_copy = self.elements.copy()
+        for element in iteration_copy.values():
             element.draw()
         pygame.display.flip()
 

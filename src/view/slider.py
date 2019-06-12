@@ -23,7 +23,6 @@ class Slider(UIElement):
 
     def draw(self):
         super(Slider, self).draw()
-        print('this')
         self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
         slider_rect = pygame.Rect(self.x, self.y + self.height // 2 - 3, self.width, 6)
         pygame.draw.rect(self.view.screen, pygame.Color("black"), slider_rect, 0)
