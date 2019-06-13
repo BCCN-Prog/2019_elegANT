@@ -2,7 +2,6 @@ import sys
 import pygame
 from .text import Text
 from .button import Button
-from .button_build_scout import BuildScoutButton
 from .color_selector import ColorSelector
 from .input_box import InputBox
 # from .full_screen import FullScreen
@@ -12,6 +11,11 @@ from .input_box import InputBox
 from .world import World
 from src.utils import array
 from .dialog_box_nest import DialogBoxNest
+# <<<<<<< HEAD
+# =======
+from .dialog_box_add_ants import DialogBoxAddAnts
+# import numpy as np
+# >>>>>>> master
 import platform
 
 
@@ -61,8 +65,6 @@ class View:
 
     def start_view(self):
         self.elements = {}
-        self.iteration_copy = {}
-
         # add elements for the main text
         text = Text(self, "headline", 4, 5, -1, 12.5)
         text.set_text("ElegANT")
@@ -89,10 +91,14 @@ class View:
                               (100, 100, 100), (150, 150, 150), 'square')
 
         # Add start game event
-        start_button.on("click", lambda: self.event_dict.update({"start_button":
-                                                                (self.get_element_by_id(
-                                                                    "color_selector").get_selection(),
-                                                                 self.get_element_by_id("textbox").text)}))
+        start_button.on("click", lambda: self.event_dict.update(
+            {
+                "start_button": (
+                    self.get_element_by_id("color_selector").get_selection(),
+                    self.get_element_by_id("textbox").text
+                )
+            }
+        ))
 
         self.add_element(start_button)
         self.add_element(starttext)
@@ -152,15 +158,20 @@ class View:
         # Create world which contains all game objects
         self.add_element(World(self, "world", 0, 0, 250, 250))
 
-        build_scout_button = BuildScoutButton(self, "build_scout", 5, 85, 5, 9, -1, (150, 150, 150),
-                                              (255, 255, 255), 'square')
-
-        # Add start game event
-        build_scout_button.on("click", lambda: self.event_dict.update({
-            "build_scout": (build_scout_button,)
-        }))
-
-        self.add_element(build_scout_button)
+# <<<<<<< HEAD
+#         build_scout_button = BuildScoutButton(self, "build_scout", 5, 85, 5, 9, -1, (150, 150, 150),
+#                                               (255, 255, 255), 'square')
+#
+#         # Add start game event
+#         build_scout_button.on("click", lambda: self.event_dict.update({
+#             "build_scout": (build_scout_button,)
+#         }))
+#
+#         self.add_element(build_scout_button)
+# =======
+        dialog_add_ants = DialogBoxAddAnts(self, "view_box_id_add_ants_box", active=False)
+        self.add_element(dialog_add_ants)
+# >>>>>>> master
 
         change_scout_stats = Button(self, "change_scout_stats", 0, 0, 10, 10, -1, pygame.Color("white"),
                                     (150, 150, 150), 'square', has_image=True,
@@ -239,6 +250,6 @@ class View:
 
         return self.event_dict
 
-    def increment_ant_count(self):
-        button = self.get_element_by_id("build_scout")
+    def increment_ant_count(self, type):
+        button = self.get_element_by_id(f"build_{type}")
         button.counter += 1

@@ -10,10 +10,11 @@ STATE_BUTTON = 'add'
 STATE_LOADING = 'loading'
 
 
-class BuildScoutButton(Button):
-    def __init__(self, *args, **kwargs):
-        super(BuildScoutButton, self).__init__(*args, **kwargs)
+class BuildAntButton(Button):
+    def __init__(self, ant_type, *args, **kwargs):
+        super(BuildAntButton, self).__init__(*args, **kwargs)
 
+        self.ant_type = ant_type
         self.state = STATE_BUTTON
         self.counter = 0
         self._loading_angle = 0
@@ -29,7 +30,7 @@ class BuildScoutButton(Button):
             self.draw_loading()
 
     def draw_add_button(self):
-        super(BuildScoutButton, self).draw()
+        super(BuildAntButton, self).draw()
         loc = self.image.get_rect().center
         loc = (self.x - 10, self.y - 10)
         self.view.screen.blit(self.image, loc)
@@ -38,7 +39,7 @@ class BuildScoutButton(Button):
         self.counter_text()
 
     def draw_loading(self):
-        super(BuildScoutButton, self).draw()
+        super(BuildAntButton, self).draw()
         if self._loading_angle > 360:
             self.state = STATE_BUTTON
             self._loading_angle = 0
@@ -51,11 +52,20 @@ class BuildScoutButton(Button):
 
         start = (90 - self._loading_angle) / 180 * PI
         end = PI / 2
+# <<<<<<< HEAD:src/view/button_build_scout.py
         x = self.x - int(self.width / 5)
         y = self.y - int(self.height / 5)
         rect_load = [x, y, 40, 40]
         self.view.screen.fill(self.color_background, rect_load, 2)
         pygame.draw.arc(self.view.screen, self.color2, rect_load, start, end, 19)
+# =======
+#         rect = [self.x, self.y, self.width, self.height]
+#         self.view.screen.fill(self.color1, rect, 2)
+#
+#         arc_width = int(min(self.width, self.height) / 2)
+#
+#         pygame.draw.arc(self.view.screen, self.color2, rect, start, end, arc_width)
+# >>>>>>> master:src/view/button_build_ant.py
         denominator_angle = all_params.controller_params.framerate * all_params.controller_params.create_ant_time
         self._loading_angle += 360 / denominator_angle
 
