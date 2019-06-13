@@ -12,9 +12,8 @@ from .input_box import InputBox
 from .world import World
 from src.utils import array
 from .dialog_box_nest import DialogBoxNest
-
-# import numpy as np
 import platform
+
 
 # View
 class View:
@@ -86,10 +85,6 @@ class View:
         starttext = Text(self, "starttext", 6, 82, -1, 5, (255, 255, 255))
         starttext.set_text("START GAME")
 
-        # start_button = Button(self, "start_button", 5, 80, 22, 10, - 1,
-        #                       (100, 100, 100), (150, 150, 150), 'square')
-
-
         start_button = Button(self, "start_button", 5, 80, 20, 10, - 1,
                               (100, 100, 100), (150, 150, 150), 'square')
 
@@ -157,7 +152,7 @@ class View:
         # Create world which contains all game objects
         self.add_element(World(self, "world", 0, 0, 250, 250))
 
-        build_scout_button = BuildScoutButton(self, "build_scout", 5, 85, 5, 9, -1, (150,150,150),
+        build_scout_button = BuildScoutButton(self, "build_scout", 5, 85, 5, 9, -1, (150, 150, 150),
                                               (255, 255, 255), 'square')
 
         # Add start game event
@@ -216,7 +211,7 @@ class View:
             self.screen = pygame.display.set_mode((self.width, self.height))
         pygame.display.flip()
 
-    def draw(self,width,height,model_state=None):
+    def draw(self, width, height, model_state=None):
         self.width = width
         self.height = height
         self.screen.fill(self.background_color)

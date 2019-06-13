@@ -13,9 +13,8 @@ from src.settings import all_params
 
 class Controller:
     def __init__(self):
-
         # self.player = Player()
-        self.view = View(1300,800)
+        self.view = View(1300, 800)
         self.view.change_view_state(View.STARTVIEW)
         self.game_state = None
 
@@ -33,7 +32,6 @@ class Controller:
             'start_view': self.event_list_start_view,
             'game_view': self.event_list_game_view
         }
-
 
     def start_button_pressed(self, color, player_name):
         """
@@ -134,7 +132,7 @@ class Controller:
             current_time = time.time()
 
             if self.game_state is None:
-                self.view.draw(self.view.width,self.view.height)
+                self.view.draw(self.view.width, self.view.height)
                 self.game_state_init()
 
             else:

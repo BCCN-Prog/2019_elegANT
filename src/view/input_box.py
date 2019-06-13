@@ -11,7 +11,7 @@ class InputBox(UIElement):
         self.color = self.view.background_color
         self.textcolor = (0, 0, 0)
         self.largeText = pygame.font.Font('Garamond_Regular.ttf', int(0.70 * self.height))
-        self.txt_surface = self.largeText.render(self.text, True, (190,190,190))
+        self.txt_surface = self.largeText.render(self.text, True, (190, 190, 190))
         self.on("click", self.click)
         self.on("keyret", self.key_ret)
         self.on("keyback", self.key_back)
@@ -33,7 +33,7 @@ class InputBox(UIElement):
 
     def draw(self):
         super(InputBox, self).draw()
-        self.rect = pygame.Rect(self.x,self.y,self.width,self.height)
+        self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
         self.linerect = pygame.Rect(self.x, self.y + 0.90 * self.height, self.width, 2)
         self.largeText = pygame.font.Font('Garamond_Regular.ttf', int(0.70 * self.height))
         self.txt_surface = self.largeText.render(self.text, True, self.textcolor)

@@ -12,6 +12,8 @@ class ColorSelector(UIElement):
         self.colors = colors
         self.colors_n = len(self.colors)
         self.currwidth = self.width
+        self.flag = False
+        self.colorbutton(self.x, self.y, self.width)
 
     def colorbutton(self, x, y, width):
         self.buttons = []
@@ -34,7 +36,14 @@ class ColorSelector(UIElement):
 
     def draw(self):
         super(ColorSelector, self).draw()
-        self.colorbutton(self.x, self.y, self.width)
+        if self.currwidth == self.width:
+            self.flag = False
+        else:
+            self.flag = True
+        if self.flag:
+            self.colorbutton(self.x, self.y, self.width)
+            self.currwidth = self.width
+            self.flag = False
         for button in self.buttons:
             button.draw(flag=0)
 

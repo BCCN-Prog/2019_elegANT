@@ -9,7 +9,6 @@ class ViewElement:
         self.height = int(height)
         self.events = {}
 
-
     def draw(self):
         pass
 

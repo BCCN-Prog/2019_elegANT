@@ -1,7 +1,6 @@
 import math
 import pygame
 from .button import Button
-from .color_selector import ColorSelector
 
 from src.settings import all_params
 
@@ -32,7 +31,7 @@ class BuildScoutButton(Button):
     def draw_add_button(self):
         super(BuildScoutButton, self).draw()
         loc = self.image.get_rect().center
-        loc = (self.x -10, self.y -10)
+        loc = (self.x - 10, self.y - 10)
         self.view.screen.blit(self.image, loc)
 
         self.draw_counter()
@@ -45,7 +44,7 @@ class BuildScoutButton(Button):
             self._loading_angle = 0
 
         loc = self.image.get_rect().center
-        loc = (self.x -10, self.y -10)
+        loc = (self.x - 10, self.y - 10)
         self.view.screen.blit(self.image, loc)
 
         self.draw_counter()
@@ -63,13 +62,13 @@ class BuildScoutButton(Button):
         self.counter_text()
 
     def draw_counter(self):
-        x = self.x+5
-        y = self.y+5
+        x = self.x + 5
+        y = self.y + 5
         pygame.draw.circle(self.view.screen, self.color, (x, y), 20)
 
     def counter_text(self):
         largeText = pygame.font.SysFont('Garamond_Regular.ttf', 30)
-        TextSurf = largeText.render(str(self.counter), True, (255,255,255))
+        TextSurf = largeText.render(str(self.counter), True, (255, 255, 255))
         TextRect = TextSurf.get_rect()
         TextRect.center = (self.x + 7, self.y + 7)
         self.view.screen.blit(TextSurf, TextRect)
