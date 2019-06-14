@@ -4,18 +4,13 @@ from .text import Text
 from .button import Button
 from .color_selector import ColorSelector
 from .input_box import InputBox
-# from .full_screen import FullScreen
 # TODO check if these imports are necessary
 # from .nest import Nest
 # from .ant import Ant
 from .world import World
 from src.utils import array
 from .dialog_box_nest import DialogBoxNest
-# <<<<<<< HEAD
-# =======
 from .dialog_box_add_ants import DialogBoxAddAnts
-# import numpy as np
-# >>>>>>> master
 import platform
 
 
@@ -48,8 +43,9 @@ class View:
         self.event_dict = {}
         self.FONT = pygame.font.Font(None, 32)
         self.pos = [array([-500, 500]), array([500, -500])]
+        self.usercolor = None
 
-    def change_view_state(self, state):
+    def change_view_state(self, state, usercolor=None):
         if self.state == state:
             return
         # Destroy all UI elements that are no longer needed and clear screen
@@ -61,12 +57,13 @@ class View:
             self.start_view()
         if state == View.GAMEVIEW:
             self.state = View.GAMEVIEW
+            self.usercolor = usercolor
             self._game_view()
 
     def start_view(self):
         self.elements = {}
         # add elements for the main text
-        text = Text(self, "headline", 4, 5, -1, 12.5)
+        text = Text(self, "headline", 0.04, 0.05, -1, 0.125)
         text.set_text("ElegANT")
         self.add_element(text)
 
@@ -74,7 +71,7 @@ class View:
         player_colors = [
             (219, 95, 87),
             (219, 194, 87),
-            (145, 219, 87),
+            (145, 209, 87),
             (87, 219, 128),
             (87, 211, 219),
             (87, 112, 219),
@@ -82,13 +79,13 @@ class View:
             (219, 87, 178)
         ]
 
-        self.add_element(ColorSelector(self, "color_selector", 60, 50, 20, 20, player_colors))
+        self.add_element(ColorSelector(self, "color_selector", 0.60, 0.50, 0.20, 0.20, player_colors))
 
-        starttext = Text(self, "starttext", 6, 82, -1, 5, (255, 255, 255))
+        starttext = Text(self, "starttext", 0.06, 0.82, -1, 0.05, (255, 255, 255))
         starttext.set_text("START GAME")
 
-        start_button = Button(self, "start_button", 5, 80, 20, 10, - 1,
-                              (100, 100, 100), (150, 150, 150), 'square')
+        start_button = Button(self, "start_button", 0.05, 0.80, (starttext.TextRect.width / self.width) + 0.015,
+                              0.10, - 1, (100, 100, 100), (150, 150, 150), 'square')
 
         # Add start game event
         start_button.on("click", lambda: self.event_dict.update(
@@ -103,32 +100,31 @@ class View:
         self.add_element(start_button)
         self.add_element(starttext)
 
-        quit_button = Button(self, "quit_button", 98.25, 0.8, 1.5, 2.5, -1, (250, 0, 0), (150, 150, 150), 'square')
+        quit_button = Button(self, "quit_button", 0.9825, 0.008, 0.015, 0.025, -1,
+                             (250, 0, 0), (150, 150, 150), 'square')
         self.add_element(quit_button)
         
         quit_button.on("click", lambda: self.event_dict.update({"quit_game": ()}))
 
-        quittext = Text(self, "quittext", 98.6, 1, -1, 2)
+        quittext = Text(self, "quittext", 0.986, 0.01, -1, 0.02)
         quittext.set_text("X")
         self.add_element(quittext)
 
-        self.add_element(InputBox(self, "textbox", 5, 55, 12.5, 5, 'Enter your name'))
+        self.add_element(InputBox(self, "textbox", 0.05, 0.55, 0.125, 0.05, 'Enter your name'))
 
-        # self.add_element(FullScreen(self,"fullscreen",96.25, 0.8, 1.5, 2.5,self.res_width,self.res_height))
-
-        fullscreen_button = Button(self, "fullscreen_button", 96.25, 0.8, 1.5, 2.5, -1, (192, 192, 192),
+        fullscreen_button = Button(self, "fullscreen_button", 0.9625, 0.008, 0.015, 0.025, -1, (192, 192, 192),
                                    (150, 150, 150), 'square')
         self.add_element(fullscreen_button)
 
         fullscreen_button.on("click", self.fullscreen)
 
-        fullscreentext = Text(self, "fullscreentext", 96.6, 1, -1, 2)
+        fullscreentext = Text(self, "fullscreentext", 0.966, 0.01, -1, 0.02)
         fullscreentext.set_text("F")
         self.add_element(fullscreentext)
 
-        self.add_element(InputBox(self, "textbox", 5, 55, 12.5, 5, 'Enter your name'))
+        self.add_element(InputBox(self, "textbox", 0.05, 0.55, 0.125, 0.05, 'Enter your name'))
 
-        buttontext = Text(self, "buttontext", 52, 24, -1, 3)
+        buttontext = Text(self, "buttontext", 0.52, 0.24, -1, 0.03)
         buttontext.set_text("Please choose color of ant")
         self.add_element(buttontext)
 
@@ -136,44 +132,33 @@ class View:
         self.elements = {}
         self.iteration_copy = {}
 
-        quit_button = Button(self, "quit_button", 98.25, 0.8, 1.5, 2.5, -1, (250, 0, 0), (150, 150, 150), 'square')
+        quit_button = Button(self, "quit_button", 0.9825, 0.008, 0.015, 0.025, -1, (250, 0, 0), (150, 150, 150),
+                             'square')
         self.add_element(quit_button)
 
         quit_button.on("click", lambda: self.event_dict.update({"quit_game": ()}))
 
-        quittext = Text(self, "quittext", 98.6, 1, -1, 2)
+        quittext = Text(self, "quittext", 0.986, 0.01, -1, 0.02)
         quittext.set_text("X")
         self.add_element(quittext)
 
-        fullscreen_button = Button(self, "fullscreen_button", 96.25, 0.8, 1.5, 2.5, -1, (192, 192, 192),
+        fullscreen_button = Button(self, "fullscreen_button", 0.9625, 0.008, 0.015, 0.025, -1, (192, 192, 192),
                                    (150, 150, 150), 'square')
         self.add_element(fullscreen_button)
 
         fullscreen_button.on("click", self.fullscreen)
 
-        fullscreentext = Text(self, "fullscreentext", 96.6, 1, -1, 2)
+        fullscreentext = Text(self, "fullscreentext", 0.966, 0.01, -1, 0.02)
         fullscreentext.set_text("F")
         self.add_element(fullscreentext)
 
         # Create world which contains all game objects
         self.add_element(World(self, "world", 0, 0, 250, 250))
 
-# <<<<<<< HEAD
-#         build_scout_button = BuildScoutButton(self, "build_scout", 5, 85, 5, 9, -1, (150, 150, 150),
-#                                               (255, 255, 255), 'square')
-#
-#         # Add start game event
-#         build_scout_button.on("click", lambda: self.event_dict.update({
-#             "build_scout": (build_scout_button,)
-#         }))
-#
-#         self.add_element(build_scout_button)
-# =======
         dialog_add_ants = DialogBoxAddAnts(self, "view_box_id_add_ants_box", active=False)
         self.add_element(dialog_add_ants)
-# >>>>>>> master
 
-        change_scout_stats = Button(self, "change_scout_stats", 0, 0, 10, 10, -1, pygame.Color("white"),
+        change_scout_stats = Button(self, "change_scout_stats", 0, 0, 0.10, 0.10, -1, pygame.Color("white"),
                                     (150, 150, 150), 'square', has_image=True,
                                     image_path="src/view/images/scout_stat_button.png")
 

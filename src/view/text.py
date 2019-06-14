@@ -10,6 +10,12 @@ class Text(UIElement):
 
     def set_text(self, text):
         self.text = text
+        self.fontsize = self.height
+        largeText = pygame.font.Font('Garamond_Regular.ttf', self.fontsize)
+        self.TextSurf = largeText.render(self.text, True, self.color)
+        self.TextRect = self.TextSurf.get_rect()
+        self.TextRect.topleft = (self.x, self.y)
+        self.view.screen.blit(self.TextSurf, self.TextRect)
 
     def draw(self):
         super(Text, self).draw()
