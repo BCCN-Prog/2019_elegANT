@@ -6,11 +6,13 @@ from pygame import K_UP, K_RIGHT, K_DOWN, K_LEFT, K_PLUS, K_MINUS
 from .view_element import ViewElement
 from .nest import Nest
 from .ant import Ant
+from .pheromone import Pheromone
 from .food_source import FoodSource
 
 from src.model.nest import Nest as Model_Nest
-from src.model.ant import Ant as Model_Ant
-from src.model.ant import Food as Model_Food
+from src.model.worker import Worker as Model_Worker
+from src.model.food import Food as Model_Food
+from src.model.pheromone import Pheromone as Model_Pheromone
 
 
 class World(ViewElement):
@@ -58,14 +60,14 @@ class World(ViewElement):
 
     def update(self, game_state):
         element_ids = []
-        
+
         for element in game_state:
             element_ids.append(element.id)
             # Update elements
             if element.id in self.game_elements.keys():
                 view_element = self.game_elements[element.id]
                 view_element.x, view_element.y = self._to_view_coordinates(element.position)
-                if type(element) == Model_Ant:
+                if type(element) == Model_Worker:
                     view_element.direction = element.direction
                     view_element.has_food = element.has_food
                 if type(element) == Model_Food:
@@ -80,12 +82,15 @@ class World(ViewElement):
                     self.game_elements[element.id] = Nest(self.view, element.id, view_x,
                                                           view_y, 128, color, element.health)
 
-                elif type(element) == Model_Ant:
+                elif type(element) == Model_Worker:
                     self.game_elements[element.id] = Ant(self.view, element.id, view_x, view_y,
                                                          color, element.direction, element.energy)
                 elif type(element) == Model_Food:
                     self.game_elements[element.id] = FoodSource(self.view, element.id, view_x, view_y, 128, 100)
-                
+                elif type(element) == Model_Pheromone:
+                    self.game_elements[element.id] = Pheromone(self.view, element.id, view_x,
+                                                               view_y, element.strength, color)
+
                 # Establish z-index order
                 self.game_elements = OrderedDict(sorted(self.game_elements.items(), key=lambda x: x[1].z_index))
 
