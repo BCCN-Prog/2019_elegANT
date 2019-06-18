@@ -1,6 +1,7 @@
 import pygame
 from .view_element import ViewElement
 
+
 class Pheromone(ViewElement):
     def __init__(self, view, identifier, x, y, strength, color):
         super().__init__(view, identifier, x, y, width=4, height=4)
@@ -10,3 +11,4 @@ class Pheromone(ViewElement):
 
     def draw(self):
         pygame.draw.rect(self.view.screen, self.color, pygame.Rect(self.x, self.y, self.width, self.height))
+        
