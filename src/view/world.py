@@ -69,9 +69,11 @@ class World(ViewElement):
                 view_element.x, view_element.y = self._to_view_coordinates(element.position)
                 if type(element) == Model_Worker:
                     view_element.direction = element.direction
+                    view_element.health = element.energy
                     view_element.has_food = element.has_food
                 if type(element) == Model_Scout:
                     view_element.direction = element.direction
+                    view_element.health = element.energy
                 if type(element) == Model_Food:
                     view_element.value = element.size
             # Create elements
