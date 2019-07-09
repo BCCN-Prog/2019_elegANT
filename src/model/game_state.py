@@ -102,3 +102,5 @@ class GameState:
             position_list.append(np.concatenate((x_position, y_position)))
 
         self.create_food(position_list, size_list)
+
+        return list(size_list)

@@ -70,7 +70,7 @@ class PheromoneModelParams:
     def __init__(self):
         super(PheromoneModelParams, self).__init__()
         self.initial_strength = 100.  # TODO comment out initial_strength after pheromone.py an ABC
-        self.min_strength = 0  # Why 1e-8?
+        self.min_strength = 1e-4
         self.added_strength = 2
 
         # This parameter should be higher than self.distance_decay_factor (Slower decay in time than in distance)
