@@ -46,8 +46,8 @@ class GameState:
         self.world.create_nests(player_list, positions, health=100, size=10)
         self.world_size_x = all_params.world_params.world_size_x
         self.world_size_y = all_params.world_params.world_size_y
-        top_left = array([-self.world_size_x/2, self.world_size_y/2])
-        bottom_right = array([self.world_size_x/2, -self.world_size_y/2])
+        top_left = array([-self.world_size_x / 2, self.world_size_y / 2])
+        bottom_right = array([self.world_size_x / 2, -self.world_size_y / 2])
         self.number_food_sources = all_params.world_params.number_food_sources
         self.generate_random_food(top_left, bottom_right, self.number_food_sources)
 

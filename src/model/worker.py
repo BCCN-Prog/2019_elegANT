@@ -305,7 +305,7 @@ class Worker(Ant):
                 probs /= np.sum(probs)
 
                 # Drawing an object from the prob distribution
-                #index = np.random.choice(len(sub_food), p=probs)
+                # index = np.random.choice(len(sub_food), p=probs)
                 index = np.argmax(probs)
                 return self.move_to(sub_food[index].position)
             else:
@@ -345,7 +345,7 @@ class Worker(Ant):
 
             # Draw an object from the prob distribution
             index = np.random.choice(len(pheromones), p=probs)
-            #index = np.argmax(probs)
+            # index = np.argmax(probs)
             return self.move_to(pheromones[index].position)
 
     def move_randomly(self):
