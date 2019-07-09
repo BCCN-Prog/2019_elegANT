@@ -30,7 +30,6 @@ class AntModelParams:
         self.initial_direction = array([0., 0.])
         self.min_pheromone_strength = 1.
         self.max_pheromone_strength = 100.
-        self.pheromone_dist_decay = 0.95
 
         # Food
         # self.loading_capacity = 1.
@@ -70,10 +69,15 @@ class PheromoneModelParams:
 
     def __init__(self):
         super(PheromoneModelParams, self).__init__()
-        self.initial_strength = 1.  # TODO comment out initial_strength after pheromone.py an ABC
-        self.min_strength = 1e-8
-        self.added_strength = 1
-        self.decay_factor = 0.75
+        self.initial_strength = 100.  # TODO comment out initial_strength after pheromone.py an ABC
+        self.min_strength = 0  # Why 1e-8?
+        self.added_strength = 2
+
+        # This parameter should be higher than self.distance_decay_factor (Slower decay in time than in distance)
+        self.time_decay_factor = 0.95
+
+        # To use by Ant
+        self.distance_decay_factor = 0.85
 
 
 class TreeModelParams:

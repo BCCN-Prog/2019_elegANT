@@ -47,5 +47,4 @@ class Pheromone(GameObject):
         self.strength += added_strength
 
     def _decay(self):
-        # TODO decide on another decaying scheme
-        self.strength = all_params.pheromone_model_params.decay_factor * self.strength
+        self.strength = all_params.pheromone_model_params.time_decay_factor * self.strength

@@ -74,7 +74,7 @@ class Worker(Ant):
         # self.loading_capacity = all_params.ant_model_params.loading_capacity
         self.min_pheromone_strength = all_params.ant_model_params.min_pheromone_strength
         self.max_pheromone_strength = all_params.ant_model_params.max_pheromone_strength
-        self.pheromone_dist_decay = all_params.ant_model_params.pheromone_dist_decay
+        self.pheromone_dist_decay = all_params.pheromone_model_params.distance_decay_factor
 
     # TODO: Please decide which type of ant is going to use which of these parameters and make 100% sure to remove the
     #  methods related to unused ones
@@ -372,4 +372,4 @@ class Worker(Ant):
                     return None
         else:
             # TODO implement pheromone type
-            return Pheromone(self.position.copy(), self.owner, initial_strength=self.pheromone_strength)  # type='food')
+            return Pheromone(self.position.copy(), self.owner, initial_strength=self.pheromone_strength)
