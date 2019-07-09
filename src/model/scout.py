@@ -294,18 +294,21 @@ class Scout(Ant):
 
             if sub_food:
                 # Getting features of food objects
-                data = zeros((len(sub_food), 2))
+                data = zeros((len(sub_food), 3))
                 for i, obj in enumerate(sub_food):
                     # Food size
                     data[i, 0] = obj.size
                     # Distance to nest
                     data[i, 1] = distance(obj.position - self.home.position)
+                    # Difference in momentum (or direction)
+                    data[i, 2] = super().momentum_conserved(obj)
 
                 # Rescaling each feature to have values bounded by 1
                 data /= np.max(data, axis=0)
 
                 # Calculating probability distribution
-                probs = (data[:, 0] ** self.foodiness) * (data[:, 1] ** self.explorativeness)
+                probs = (data[:, 0] ** self.foodiness) * (data[:, 1] ** self.explorativeness) \
+                    * (data[:, 2] ** self.directionism)
                 probs /= np.sum(probs)
 
                 # Drawing an object from the prob distribution

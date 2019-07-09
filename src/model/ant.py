@@ -172,3 +172,31 @@ class Ant(GameObject, ABC):
             self.direction = array([0., 0.])  # THIS IS NOT THE BEST IMPLEMENTATION
         self.position = self.position + (self.direction * self.speed)
         return self.position
+
+    def momentum_conserved(self, obj):
+        """
+        calculation of how much momentum is conserved. To consider if directionism (or less random) movement
+        is required
+        :param obj: possible object to reach
+        :return: conservation of momentum, a number between 1 and 0.0055. 1 is indicates that there is no change
+        in direction or momentum. 0.0055 indicates highest change in momentum
+        """
+
+        # Difference in momentum (or direction)
+        possible_direction = (obj.position - self.position) / distance(obj.position - self.position)
+
+        # Given direction is by definition unitary, dot product is proportional to cosine(angle)
+        # Restraining values to close interval -1 to 1
+        direction_diff = np.clip(np.dot(possible_direction, self.direction), -1.0, 1.0)
+
+        # Angle in degrees
+        angle = np.arccos(direction_diff) * 180 / np.pi
+
+        # Right or left angle are the same
+        angle = angle if angle < 180 else 360 - angle
+
+        # For 0 degrees, momentum conservation at highest: 1/1 = 1
+        # For 180 degrees, momentum conservation at lowest: 1/181 = 0.0055
+        angle = 1 / (angle + 1)
+
+        return angle
