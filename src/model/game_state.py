@@ -1,6 +1,7 @@
 from src.utils import random, array
 import numpy as np
 from .kd_tree import KDTree
+from src.settings import all_params
 
 # Interface with controller
 # GameState calls world interface
@@ -38,11 +39,17 @@ class GameState:
         """
         self.players = player_list
         self.world = KDTree()
+        self.nest_area = all_params.world_params.nest_area
         positions = []
         for i in range(len(player_list)):
-            positions.append(random(2) * 250)
+            positions.append(random(2) * self.nest_area * 2 - self.nest_area)
         self.world.create_nests(player_list, positions, health=100, size=10)
-        self.generate_random_food(array([-250, 250]), array([250, -250]), 50, [5] * 50)
+        self.world_size_x = all_params.world_params.world_size_x
+        self.world_size_y = all_params.world_params.world_size_y
+        top_left = array([-self.world_size_x/2, self.world_size_y/2])
+        bottom_right = array([self.world_size_x/2, -self.world_size_y/2])
+        self.number_food_sources = all_params.world_params.number_food_sources
+        self.generate_random_food(top_left, bottom_right, self.number_food_sources)
 
     def get_objects_in_region(self, top_left, bottom_right):
         """ Get list of positions and all included objects (ants, nests, foods, pheromones, etc) in a specific
@@ -82,12 +89,16 @@ class GameState:
     def get_ants(self):
         return self.world.get_ants()
 
-    def generate_random_food(self, top_left, bottom_right, amount, size_list):
+    def generate_random_food(self, top_left, bottom_right, amount):
         position_list = []
+        max_size = 20
+        min_size = 2
+        size_list = (max_size - min_size) * np.random.random(amount) + min_size
+        x_span = bottom_right[0] - top_left[0]
+        y_span = top_left[1] - bottom_right[1]
         for i in range(amount):
-            x_span = bottom_right[0] - top_left[0]
             x_position = top_left[0] + x_span * random(1)
-            y_span = top_left[1] - bottom_right[1]
-            y_position = top_left[0] + y_span * random(1)
+            y_position = bottom_right[1] + y_span * random(1)
             position_list.append(np.concatenate((x_position, y_position)))
+
         self.create_food(position_list, size_list)

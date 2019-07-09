@@ -94,10 +94,22 @@ class ViewParams:
         super(ViewParams, self).__init__()
 
 
+class WorldParams:
+
+    def __init__(self):
+        super(WorldParams, self).__init__()
+        # Sizes for creation of food (and display of the world)
+        self.world_size_x = 1400
+        self.world_size_y = 1000
+        # Nest is created within a square of x_span = y_span = 2 * nest_area
+        self.nest_area = 150
+        self.number_food_sources = 75
+
+
 class AllParams:
 
     def __init__(self, controller_params, model_params, ant_model_params, food_model_params, nest_model_params,
-                 pheromone_model_params, tree_model_params, view_params):
+                 pheromone_model_params, tree_model_params, view_params, world_params):
         self.controller_params: ControllerParams = controller_params
         self.model_params: ModelParams = model_params
         self.ant_model_params: AntModelParams = ant_model_params
@@ -106,6 +118,7 @@ class AllParams:
         self.pheromone_model_params: PheromoneModelParams = pheromone_model_params
         self.tree_model_params: TreeModelParams = tree_model_params
         self.view_params: ViewParams = view_params
+        self.world_params: WorldParams = world_params
 
 
 c_p = ControllerParams()
@@ -119,6 +132,8 @@ t_mp = TreeModelParams()
 
 v_p = ViewParams()
 
+w_p = WorldParams()
+
 all_params = AllParams(controller_params=c_p,
                        model_params=m_p,
                        ant_model_params=a_mp,
@@ -126,5 +141,6 @@ all_params = AllParams(controller_params=c_p,
                        nest_model_params=n_mp,
                        pheromone_model_params=p_mp,
                        tree_model_params=t_mp,
-                       view_params=v_p
+                       view_params=v_p,
+                       world_params=w_p
                        )
