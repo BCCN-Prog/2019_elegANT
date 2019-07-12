@@ -29,6 +29,7 @@ def test_update(set_up_pheromone):
     while test_pheromone.strength > 0:
         old_strength = test_pheromone.strength
         returned_position = test_pheromone.update()
+        print(test_pheromone.strength)
         assert (test_pheromone.strength < old_strength)
     assert (returned_position is None)
 

@@ -17,7 +17,7 @@ def test___init__(set_up_game_state_fixed):
     players, game_state = set_up_game_state_fixed
     content = game_state.world.dump_content()
     foods = [obj for obj in content if type(obj) == Food]
-    assert len(foods) == 50
+    assert len(foods) == 75  # number_food_sources at WorldParams
     assert len(game_state.get_nests()) == len(players)
     assert len(game_state.get_ants()) == 0
 
@@ -29,8 +29,7 @@ def test_generate_random_food(set_up_game_state_fixed):
     top_left = array([-10, 10])
     bottom_right = array([10, -10])
     amount = 10
-    sizes = list(range(10))
-    game_state.generate_random_food(top_left, bottom_right, amount, sizes)
+    sizes = game_state.generate_random_food(top_left, bottom_right, amount)
     content = game_state.world.dump_content()
     new_foods = [obj for obj in content if type(obj) == Food]
     assert len(new_foods) == len(old_foods) + amount

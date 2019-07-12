@@ -77,7 +77,7 @@ class Scout(Ant):
         # self.loading_capacity = all_params.ant_model_params.loading_capacity
         self.min_pheromone_strength = all_params.ant_model_params.min_pheromone_strength
         self.max_pheromone_strength = all_params.ant_model_params.max_pheromone_strength
-        self.pheromone_dist_decay = all_params.ant_model_params.pheromone_dist_decay
+        self.pheromone_dist_decay = all_params.pheromone_model_params.distance_decay_factor
 
     # TODO: Please decide which type of ant is going to use which of these parameters and make 100% sure to remove the
     #  methods related to unused ones
@@ -208,11 +208,7 @@ class Scout(Ant):
         if foods:
             return self.move_to_food(foods)
 
-        # In case there is no food, pheromones are taken into account
-        # elif pheromones:
-        #     return self.move_to_pheromone(pheromones)
-
-        # In case there is no food nor pheromone scents, move randomly
+        # In case there is no food, move randomly
         else:
             return self.move_randomly()
 
@@ -298,18 +294,21 @@ class Scout(Ant):
 
             if sub_food:
                 # Getting features of food objects
-                data = zeros((len(sub_food), 2))
+                data = zeros((len(sub_food), 3))
                 for i, obj in enumerate(sub_food):
                     # Food size
                     data[i, 0] = obj.size
                     # Distance to nest
                     data[i, 1] = distance(obj.position - self.home.position)
+                    # Difference in momentum (or direction)
+                    data[i, 2] = super().momentum_conserved(obj)
 
                 # Rescaling each feature to have values bounded by 1
                 data /= np.max(data, axis=0)
 
                 # Calculating probability distribution
-                probs = (data[:, 0] ** self.foodiness) * (data[:, 1] ** self.explorativeness)
+                probs = (data[:, 0] ** self.foodiness) * (data[:, 1] ** self.explorativeness) \
+                    * (data[:, 2] ** self.directionism)
                 probs /= np.sum(probs)
 
                 # Drawing an object from the prob distribution
@@ -344,4 +343,4 @@ class Scout(Ant):
         else:
             # TODO implement pheromone type
             return Pheromone(self.position.copy(), self.owner,
-                             initial_strength=self.pheromone_strength)  # , type='food')
+                             initial_strength=self.pheromone_strength)

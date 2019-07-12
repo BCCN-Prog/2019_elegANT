@@ -11,6 +11,7 @@ from .world import World
 from src.utils import array
 from .dialog_box_nest import DialogBoxNest
 from .dialog_box_add_ants import DialogBoxAddAnts
+from src.settings import all_params
 import platform
 
 
@@ -42,7 +43,11 @@ class View:
         self.elements = {}
         self.event_dict = {}
         self.FONT = pygame.font.Font(None, 32)
-        self.pos = [array([-500, 500]), array([500, -500])]
+        self.world_size_x = all_params.world_params.world_size_x
+        self.world_size_y = all_params.world_params.world_size_y
+        top_left = array([-self.world_size_x / 2, self.world_size_y / 2])
+        bottom_right = array([self.world_size_x / 2, -self.world_size_y / 2])
+        self.pos = [top_left, bottom_right]
         self.usercolor = None
 
     def change_view_state(self, state, usercolor=None):

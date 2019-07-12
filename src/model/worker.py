@@ -74,7 +74,7 @@ class Worker(Ant):
         # self.loading_capacity = all_params.ant_model_params.loading_capacity
         self.min_pheromone_strength = all_params.ant_model_params.min_pheromone_strength
         self.max_pheromone_strength = all_params.ant_model_params.max_pheromone_strength
-        self.pheromone_dist_decay = all_params.ant_model_params.pheromone_dist_decay
+        self.pheromone_dist_decay = all_params.pheromone_model_params.distance_decay_factor
 
     # TODO: Please decide which type of ant is going to use which of these parameters and make 100% sure to remove the
     #  methods related to unused ones
@@ -287,23 +287,26 @@ class Worker(Ant):
 
             if sub_food:
                 # Getting features of food objects
-                data = zeros((len(sub_food), 2))
+                data = zeros((len(sub_food), 3))
                 for i, obj in enumerate(sub_food):
                     # Food size
                     data[i, 0] = obj.size
                     # Distance to nest
                     data[i, 1] = distance(obj.position - self.home.position)
+                    # Difference in momentum (or direction)
+                    data[i, 2] = super().momentum_conserved(obj)
 
                 # Rescaling each feature to have values bounded by 1
                 data /= np.max(data, axis=0)
 
                 # Calculating probability distribution
-                probs = (data[:, 0] ** self.foodiness) * (data[:, 1] ** self.explorativeness)
+                probs = (data[:, 0] ** self.foodiness) * (data[:, 1] ** self.explorativeness) \
+                    * (data[:, 2] ** self.directionism)
                 probs /= np.sum(probs)
 
                 # Drawing an object from the prob distribution
-                index = np.random.choice(len(sub_food), p=probs)
-                # index = np.argmax(probs)
+                # index = np.random.choice(len(sub_food), p=probs)
+                index = np.argmax(probs)
                 return self.move_to(sub_food[index].position)
             else:
                 return None
@@ -329,16 +332,15 @@ class Worker(Ant):
                 data[i, 0] = obj.strength
                 # Distance to nest
                 data[i, 1] = distance(obj.position - self.home.position)
-                # Difference in momentum
-                # TODO define difference in momentum
-                data[i, 2] = 1
+                # Difference in momentum (or direction)
+                data[i, 2] = super().momentum_conserved(obj)
 
             # Rescaling each feature to have values bounded by 1
             data /= np.max(data, axis=0)
 
             # Calculating probability distribution
-            probs = (data[:, 0] ** self.inscentiveness) * (data[:, 1] ** self.explorativeness)
-            probs *= (data[:, 2] ** self.directionism)
+            probs = (data[:, 0] ** self.inscentiveness) * (data[:, 1] ** self.explorativeness) \
+                * (data[:, 2] ** self.directionism)
             probs /= np.sum(probs)
 
             # Draw an object from the prob distribution
@@ -372,4 +374,4 @@ class Worker(Ant):
                     return None
         else:
             # TODO implement pheromone type
-            return Pheromone(self.position.copy(), self.owner, initial_strength=self.pheromone_strength)  # type='food')
+            return Pheromone(self.position.copy(), self.owner, initial_strength=self.pheromone_strength)
