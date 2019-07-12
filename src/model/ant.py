@@ -41,6 +41,11 @@ class Ant(GameObject, ABC):
         self.pheromone_strength = pheromone_strength
         self.speed = speed
 
+        # waiting time to decrease energy
+        self._energy_update_interval = 30
+        # Counter to check against energy update interval
+        self._energy_update_counter = 0
+
     @property
     def energy(self):
         return self.__energy
@@ -130,6 +135,11 @@ class Ant(GameObject, ABC):
 
     @abstractmethod
     def update(self, *args):
+        self._energy_update_counter += 1
+        if self._energy_update_counter == self._energy_update_interval:
+            self.energy -= 10
+            self._energy_update_counter = 0
+
         if self.energy <= all_params.ant_model_params.min_energy:
             return None, None
 

@@ -4,7 +4,7 @@ from .view_element import ViewElement
 
 
 class Ant(ViewElement):
-    MAX_HEALTH = 100
+    MAX_HEALTH = 1000
 
     def __init__(self, view, identifier, x, y, color, direction, health):
         super(Ant, self).__init__(view, identifier, x, y, width=64, height=64)
@@ -25,13 +25,14 @@ class Ant(ViewElement):
         loc = ant_img.get_rect().center
         loc = (self.x - (loc[0]), self.y - (loc[1]))
         
-        self.blit_alpha(self.view.screen, ant_img, loc, (self.health * 255) / Ant.MAX_HEALTH)
+        blit_alpha(self.view.screen, ant_img, loc, (self.health * 255) / Ant.MAX_HEALTH)
 
-    def blit_alpha(self, screen, image, location, opacity):
-        x = location[0]
-        y = location[1]
-        temp = pygame.Surface((image.get_width(), image.get_height())).convert()
-        temp.blit(screen, (-x, -y))
-        temp.blit(image, (0, 0))
-        temp.set_alpha(opacity)
-        screen.blit(temp, location)
+
+def blit_alpha(screen, image, location, opacity):
+    x = location[0]
+    y = location[1]
+    temp = pygame.Surface((image.get_width(), image.get_height())).convert()
+    temp.blit(screen, (-x, -y))
+    temp.blit(image, (0, 0))
+    temp.set_alpha(opacity)
+    screen.blit(temp, location)

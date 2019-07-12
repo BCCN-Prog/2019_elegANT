@@ -1,6 +1,7 @@
 from scipy.spatial import cKDTree
 import numpy as np
 
+from src.settings import a_mp
 from .worker import Worker
 from .ant import Ant
 from .scout import Scout
@@ -10,6 +11,7 @@ from .nest import Nest
 from src.utils import empty
 from src.settings import all_params
 from .world import World
+
 
 class KDTree(World):
     def __init__(self):
@@ -175,7 +177,7 @@ class KDTree(World):
             raise ValueError("Incorrect Ant type passed at ant creation.")
 
         for _ in range(amount):
-            self.all_objects.append(CorrectAnt(nest.owner, nest))
+            self.all_objects.append(CorrectAnt(nest.owner, nest, energy=a_mp.maximum_energy))
 
         self._update_tree()
 
