@@ -206,7 +206,10 @@ class KDTree(World):
         """Update the tree"""
         all_pos = empty((len(self.all_objects), 2))
         for i, o in enumerate(self.all_objects):
-            all_pos[i, :] = o.position
+            try:
+                all_pos[i, :] = o.position
+            except:
+                continue
         self.tree = cKDTree(all_pos)
 
     def get_square_region(self, center, radius):
